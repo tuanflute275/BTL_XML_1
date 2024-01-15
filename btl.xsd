@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?><xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="EmployeeId" type="xs:positiveInteger"></xs:element>
+
+    <xs:element name="FirstName">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:minLength value="2"></xs:minLength>
+                <xs:maxLength value="50"></xs:maxLength>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+
+    <xs:element name="LastName">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:minLength value="2"></xs:minLength>
+                <xs:maxLength value="50"></xs:maxLength>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+
+    <xs:element name="Email"> 
+        <xs:simpleType>
+            <xs:restriction base="xs:string"> 
+                <xs:pattern value="[^\s@]+@[^\s]+\.[^\s]{2,3}"/> 
+            </xs:restriction> 
+        </xs:simpleType>
+    </xs:element>
+
+    <xs:element name="PhoneNumber">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:pattern value="[0-9]{10}"></xs:pattern>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+
+    <xs:element name="Date" type="xs:date"></xs:element>
+
+    <xs:element name="JobId">
+        <xs:simpleType>
+            <xs:restriction base="xs:integer">
+                <xs:minInclusive value="0"></xs:minInclusive>
+                <xs:maxInclusive value="15"></xs:maxInclusive>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+
+    <xs:element name="Salary">
+        <xs:simpleType>
+            <xs:restriction base="xs:positiveInteger">
+                <xs:minInclusive value="900"></xs:minInclusive>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+
+    <xs:simpleType name="formatManagerID">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[\s\w\n]*"></xs:pattern>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:element name="ManagerId">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="formatManagerID">
+                    <xs:attribute name="note" use="optional"></xs:attribute>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Employee">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="EmployeeId"></xs:element>
+                <xs:element ref="FirstName"></xs:element>
+                <xs:element ref="LastName"></xs:element>
+                <xs:element ref="Email"></xs:element>
+                <xs:element ref="PhoneNumber"></xs:element>
+                <xs:element ref="Date"></xs:element>
+                <xs:element ref="JobId"></xs:element>
+                <xs:element ref="Salary"></xs:element>
+                <xs:element ref="ManagerId"></xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Employees">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="Employee" minOccurs="1" maxOccurs="unbounded"></xs:element>
+            </xs:sequence>
+        </xs:complexType>
+        <xs:unique name="uniqueId">
+            <xs:selector xpath="Employee/EmployeeId"></xs:selector>
+            <xs:field xpath="."></xs:field>
+        </xs:unique>
+    </xs:element>
+
+</xs:schema>
